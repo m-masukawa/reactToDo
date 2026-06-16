@@ -1,11 +1,16 @@
 // リスト
-function TodoList({ todos }) {
+import TodoItem from "./TodoItem";
+
+function TodoList({ todos, onToggle, onDelete }) {
   return (
-    <ul>
+    <ul style={{ listStyle: "none", padding: 0 }}>
       {todos.map((todo) => (
-        <li key={todo.id}>
-          {todo.text}
-        </li>
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          onToggle={onToggle}
+          onDelete={onDelete}
+        />
       ))}
     </ul>
   );
