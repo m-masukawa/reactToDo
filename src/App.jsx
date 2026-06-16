@@ -1,34 +1,34 @@
 // src/App.jsx
 import { useState } from "react";
-// 原因②の修正：子コンポーネントを正しくインポートする
 import AddTodoForm from "./components/AddTodoForm";
 import TodoList from "./components/TodoList";
+import FilterBar from "./components/FilterBar"; // FilterBarをインポート
 
 function App() {
-  // 原因①の修正：Todoリストと入力テキストの状態（state）を定義する
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
+  const [filter, setFilter] = useState("all"); // フィルタ状態を管理するstate ("all", "active", "completed")
 
   // Todo追加関数
   const handleAddTodo = () => {
-    if (inputText.trim() === "") return; // 空文字の追加防止
+    if (inputText.trim() === "") return;
 
     const newTodo = {
-      id: Date.now(), // ユニークなID
+      id: Date.now(),
       text: inputText,
       completed: false,
     };
 
     setTodos([...todos, newTodo]);
-    setInputText(""); // 入力欄をリセット
+    setInputText("");
   };
 
-  // 必須要件：Todo削除 (filterを使用)
+  // Todo削除関数
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  // 必須要件：Todo完了トグル (mapとスプレッド演算子を使用)
+  // Todo完了トグル関数
   const handleToggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -36,6 +36,16 @@ function App() {
       )
     );
   };
+
+  // 【推奨要件】現在のフィルタに合わせて表示するTodoを絞り込む（派生データ）
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "active") return !todo.completed;   // 未完了のみ
+    if (filter === "completed") return todo.completed; // 完了済みのみ
+    return true; // "all" はすべて
+  });
+
+  // 【推奨要件】未完了のTodo件数を計算する（派生データ）
+  const activeCount = todos.filter((todo) => !todo.completed).length;
 
   return (
     <div className="app" style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
@@ -45,8 +55,17 @@ function App() {
         onInputChange={setInputText}
         onAddTodo={handleAddTodo}
       />
+      
+      {/* フィルタバーの設置 */}
+      <FilterBar
+        currentFilter={filter}
+        onFilterChange={setFilter}
+        activeCount={activeCount}
+      />
+
+      {/* TodoListに渡す配列を todos から filteredTodos に変更！ */}
       <TodoList
-        todos={todos}
+        todos={filteredTodos}
         onToggle={handleToggleTodo}
         onDelete={handleDeleteTodo}
       />
