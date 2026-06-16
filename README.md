@@ -1,16 +1,41 @@
-# React + Vite
+# Todoアプリについて
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ReactとViteを使用して作成した、Todoアプリ。
+Reactの基礎を学びました。
 
-Currently, two official plugins are available:
+## 機能一覧
+### 必須要件
+- [x] **Todo追加**　テキスト入力欄にタスクを入力し、追加ボタンまたはEnterキーで追加できる
+- [x] **Todo一覧表示**　追加されたTodoの一覧を表示できる
+- [x] **Todo完了トグル**　チェックボックスなどで完了・未完了を切り替えられる
+- [x] **Todo削除**　削除ボタンでTodoを削除できる
+- [x] **空文字の追加防止** trimを使用
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 推奨要件
+- [x] **フィルタリング**「すべて」「未完了」「完了済み」でTodoを絞り込める
+- [x] **残件数表示**未完了のTodo数を表示する
+- [x] **完了済みのスタイル変更**完了済みTodoに取り消し線を引くなど、見た目で区別できる
+- [ ] **バリデーションエラーの可視化**空文字追加を試みたときにエラーメッセージを表示する
 
-## React Compiler
+### 2. 発展要件
+- [ ] **ローカルストレージへの永続化**: `useEffect` と `localStorage` を組み合わせ、ブラウザをリロードしたり閉じたりしても、登録したTodoデータが消えずに残る仕組みを実装する。
+- [ ] **Todoのインライン編集**: 追加済みのタスク名を後から修正できるよう、編集モード（ダブルクリックや編集ボタンによる切り替え）と更新ロジックを実装する。
+- [ ] **一括操作（全完了・全削除）**: 溜まったタスクをワンクリックで整理できるよう、「すべてのタスクを完了にする」ボタンおよび「完了済みタスクを一括でまとめて削除する」ボタンを設置する。
+- [ ] **カスタムフック化 (`useTodos`)**
+## 起動手順
+プロジェクトのルートディレクトリ（`todo-app`）で以下を実行してください。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# 依存関係のインストール
+npm install
 
-## Expanding the ESLint configuration
+# 開発サーバーの起動
+npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+コンポーネント構成
+App (全体のステート管理・ロジック)
+├── AddTodoForm (入力フォーム・追加ボタン)
+├── FilterBar (フィルタ切り替え・残件数表示)
+└── TodoList (リスト全体のラッピング)
+    └── TodoItem (タスク1件の表示・チェック・削除)

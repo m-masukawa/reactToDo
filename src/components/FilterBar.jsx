@@ -7,6 +7,12 @@ const FILTERS = [
 
 function FilterBar({ currentFilter, onFilterChange, activeCount }) {
   return (
+
+
+    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+  
+    <div> FilterBar コンポーネント</div>
+
     <div style={{ display: "flex", alignItems: "center", justifyDelta: "space-between", gap: "10px", margin: "15px 0" }}>
       <div style={{ display: "flex", gap: "5px" }}>
         {FILTERS.map(({ value, label }) => (
@@ -28,6 +34,7 @@ function FilterBar({ currentFilter, onFilterChange, activeCount }) {
         ))}
       </div>
       <span style={{ fontSize: "14px", color: "#666" }}>{activeCount}件未完了</span>
+    </div>
     </div>
   );
 }

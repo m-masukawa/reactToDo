@@ -2,14 +2,14 @@
 import { useState } from "react";
 import AddTodoForm from "./components/AddTodoForm";
 import TodoList from "./components/TodoList";
-import FilterBar from "./components/FilterBar"; // FilterBarをインポート
+import FilterBar from "./components/FilterBar";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
-  const [filter, setFilter] = useState("all"); // フィルタ状態を管理するstate ("all", "active", "completed")
+  const [filter, setFilter] = useState("all");
 
-  // Todo追加関数
+  // Todo追加
   const handleAddTodo = () => {
     if (inputText.trim() === "") return;
 
@@ -23,12 +23,12 @@ function App() {
     setInputText("");
   };
 
-  // Todo削除関数
+  // Todo削除
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  // Todo完了トグル関数
+  // Todo完了
   const handleToggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -37,14 +37,14 @@ function App() {
     );
   };
 
-  // 【推奨要件】現在のフィルタに合わせて表示するTodoを絞り込む（派生データ）
+  // Todoを絞り込む
   const filteredTodos = todos.filter((todo) => {
-    if (filter === "active") return !todo.completed;   // 未完了のみ
-    if (filter === "completed") return todo.completed; // 完了済みのみ
-    return true; // "all" はすべて
+    if (filter === "active") return !todo.completed;   // 未完了
+    if (filter === "completed") return todo.completed; // 完了済み
+    return true; // すべて
   });
 
-  // 【推奨要件】未完了のTodo件数を計算する（派生データ）
+  // 未完了のTodo件数
   const activeCount = todos.filter((todo) => !todo.completed).length;
 
   return (
@@ -56,14 +56,13 @@ function App() {
         onAddTodo={handleAddTodo}
       />
       
-      {/* フィルタバーの設置 */}
+      {/* フィルタ */}
       <FilterBar
         currentFilter={filter}
         onFilterChange={setFilter}
         activeCount={activeCount}
       />
 
-      {/* TodoListに渡す配列を todos から filteredTodos に変更！ */}
       <TodoList
         todos={filteredTodos}
         onToggle={handleToggleTodo}
